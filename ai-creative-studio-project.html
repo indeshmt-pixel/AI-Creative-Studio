@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Creative Studio — Case Study</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #07101f;
+            color: #ffffff;
+            line-height: 1.7;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            background: rgba(7, 16, 31, 0.95);
+            border-bottom: 1px solid #1d3150;
+            backdrop-filter: blur(12px);
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        .back-button {
+            padding: 11px 20px;
+            background: #2867e8;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .back-button:hover {
+            background: #3b78f0;
+            transform: translateY(-2px);
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 620px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 100px 20px;
+            background:
+                radial-gradient(circle at 50% 30%, rgba(40, 103, 232, 0.20), transparent 35%),
+                #07101f;
+        }
+
+        .tag {
+            color: #4d8cff;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 7vw, 78px);
+            line-height: 1.05;
+            margin-bottom: 25px;
+        }
+
+        .hero p {
+            max-width: 750px;
+            color: #9fb0c9;
+            font-size: 19px;
+        }
+
+        /* GENERAL */
+        .section {
+            max-width: 1100px;
+            margin: auto;
+            padding: 100px 25px;
+        }
+
+        .section-title {
+            font-size: 38px;
+            margin-bottom: 18px;
+        }
+
+        .section-subtitle {
+            color: #91a4c0;
+            max-width: 750px;
+            margin-bottom: 45px;
+        }
+
+        /* OVERVIEW */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 35px;
+        }
+
+        .glass-card {
+            background: #101d35;
+            border: 1px solid #233a5f;
+            border-radius: 18px;
+            padding: 32px;
+        }
+
+        .glass-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .glass-card p {
+            color: #a7b6cc;
+        }
+
+        /* ROLE CARDS */
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .role-card {
+            background: #101d35;
+            border: 1px solid #233a5f;
+            border-radius: 16px;
+            padding: 28px;
+            transition: 0.3s;
+        }
+
+        .role-card:hover {
+            transform: translateY(-5px);
+            border-color: #3979ef;
+        }
+
+        .role-card .number {
+            font-size: 14px;
+            color: #4d8cff;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .role-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .role-card p {
+            color: #9eafc8;
+            font-size: 15px;
+        }
+
+        /* PROCESS */
+        .process {
+            display: grid;
+            gap: 18px;
+        }
+
+        .process-item {
+            display: flex;
+            gap: 22px;
+            align-items: flex-start;
+            background: #101d35;
+            border: 1px solid #233a5f;
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .process-number {
+            min-width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #2867e8;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+        .process-item h3 {
+            margin-bottom: 5px;
+        }
+
+        .process-item p {
+            color: #9eafc8;
+        }
+
+        /* FEATURES */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .feature {
+            background: #101d35;
+            border: 1px solid #233a5f;
+            border-radius: 16px;
+            padding: 28px;
+        }
+
+        .feature h3 {
+            margin-bottom: 8px;
+        }
+
+        .feature p {
+            color: #9eafc8;
+        }
+
+        /* TECH */
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .tech {
+            padding: 10px 17px;
+            border-radius: 30px;
+            background: #101d35;
+            border: 1px solid #294366;
+            color: #b8c7db;
+            font-size: 14px;
+        }
+
+        /* RESULT */
+        .result {
+            text-align: center;
+            background:
+                linear-gradient(135deg, rgba(40, 103, 232, 0.15), rgba(7, 16, 31, 0.5));
+            border: 1px solid #29466f;
+            border-radius: 22px;
+            padding: 65px 30px;
+        }
+
+        .result h2 {
+            font-size: 38px;
+            margin-bottom: 18px;
+        }
+
+        .result p {
+            max-width: 720px;
+            margin: auto;
+            color: #a7b6cc;
+        }
+
+        .live-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 13px 25px;
+            background: #2867e8;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .live-button:hover {
+            background: #3b78f0;
+            transform: translateY(-2px);
+        }
+
+        /* FOOTER */
+        footer {
+            border-top: 1px solid #1d3150;
+            text-align: center;
+            padding: 35px 20px;
+            color: #71839e;
+        }
+
+        /* MOBILE */
+        @media (max-width: 800px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .overview-grid,
+            .role-grid,
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                min-height: 520px;
+            }
+
+            .hero h1 {
+                font-size: 45px;
+            }
+
+            .section {
+                padding: 70px 20px;
+            }
+
+            .section-title {
+                font-size: 31px;
+            }
+
+            .logo {
+                font-size: 17px;
+            }
+
+            .back-button {
+                padding: 9px 14px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+        <div class="logo">
+            AI Creative Studio
+        </div>
+
+        <a href="index.html" class="back-button">
+            ← Back to Portfolio
+        </a>
+
+    </nav>
+
+
+    <!-- HERO -->
+    <header class="hero">
+
+        <div class="tag">
+            PROJECT CASE STUDY
+        </div>
+
+        <h1>
+            AI Creative Studio
+        </h1>
+
+        <p>
+            An AI-powered creative web experience designed to transform
+            ideas into professional design concepts and detailed AI image prompts.
+        </p>
+
+    </header>
+
+
+    <!-- OVERVIEW -->
+    <section class="section">
+
+        <div class="overview-grid">
+
+            <div class="glass-card">
+
+                <h3>
+                    Project Overview
+                </h3>
+
+                <p>
+                    AI Creative Studio is an interactive creative tool that
+                    combines artificial intelligence, graphic design,
+                    UI/UX thinking and front-end development into one
+                    modern digital experience.
+                </p>
+
+                <br>
+
+                <p>
+                    The goal was to create a simple interface where users
+                    can enter a creative idea and receive a structured
+                    professional concept that can be used for design projects.
+                </p>
+
+            </div>
+
+
+            <div class="glass-card">
+
+                <h3>
+                    Project Details
+                </h3>
+
+                <p>
+                    <strong>Role:</strong><br>
+                    AI Creative Designer
+                </p>
+
+                <br>
+
+                <p>
+                    <strong>Type:</strong><br>
+                    AI Web Application
+                </p>
+
+                <br>
+
+                <p>
+                    <strong>Focus:</strong><br>
+                    AI + UI/UX + Web Design
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- MY ROLE -->
+    <section class="section">
+
+        <div class="tag">
+            MY ROLE
+        </div>
+
+        <h2 class="section-title">
+            What I Worked On
+        </h2>
+
+        <p class="section-subtitle">
+            I worked across multiple areas of the project, from creative
+            direction and interface design to AI integration and deployment.
+        </p>
+
+
+        <div class="role-grid">
+
+            <div class="role-card">
+
+                <div class="number">
+                    01
+                </div>
+
+                <h3>
+                    UI/UX Design
+                </h3>
+
+                <p>
+                    Designed a clean, modern and user-friendly interface
+                    focused on a simple creative workflow.
+                </p>
+
+            </div>
+
+
+            <div class="role-card">
+
+                <div class="number">
+                    02
+                </div>
+
+                <h3>
+                    AI Integration
+                </h3>
+
+                <p>
+                    Integrated Google Gemini API to generate structured
+                    creative concepts and AI image prompts.
+                </p>
+
+            </div>
+
+
+            <div class="role-card">
+
+                <div class="number">
+                    03
+                </div>
+
+                <h3>
+                    Front-End Development
+                </h3>
+
+                <p>
+                    Built the responsive web experience using HTML,
+                    CSS, JavaScript, Node.js and Express.js.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PROCESS -->
+    <section class="section">
+
+        <div class="tag">
+            DESIGN PROCESS
+        </div>
+
+        <h2 class="section-title">
+            From Idea to Product
+        </h2>
+
+        <p class="section-subtitle">
+            The project followed a simple creative workflow designed
+            to reduce complexity for the user.
+        </p>
+
+
+        <div class="process">
+
+            <div class="process-item">
+
+                <div class="process-number">
+                    1
+                </div>
+
+                <div>
+
+                    <h3>
+                        Understand the Idea
+                    </h3>
+
+                    <p>
+                        The user enters a creative idea along with optional
+                        information such as style, audience, colours or purpose.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="process-item">
+
+                <div class="process-number">
+                    2
+                </div>
+
+                <div>
+
+                    <h3>
+                        Generate Concept
+                    </h3>
+
+                    <p>
+                        The AI processes the input and creates a structured
+                        professional creative direction.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="process-item">
+
+                <div class="process-number">
+                    3
+                </div>
+
+                <div>
+
+                    <h3>
+                        Improve & Regenerate
+                    </h3>
+
+                    <p>
+                        Users can improve or regenerate the concept to explore
+                        different creative directions.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="process-item">
+
+                <div class="process-number">
+                    4
+                </div>
+
+                <div>
+
+                    <h3>
+                        Create Image Prompt
+                    </h3>
+
+                    <p>
+                        The generated concept can be transformed into a
+                        detailed AI image-generation prompt.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FEATURES -->
+    <section class="section">
+
+        <div class="tag">
+            KEY FEATURES
+        </div>
+
+        <h2 class="section-title">
+            Built for Creative Workflows
+        </h2>
+
+
+        <div class="feature-grid">
+
+            <div class="feature">
+
+                <h3>
+                    ✨ AI Concept Generation
+                </h3>
+
+                <p>
+                    Generate professional creative concepts from simple ideas.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <h3>
+                    🎨 Design Direction
+                </h3>
+
+                <p>
+                    Receive visual direction, style recommendations and
+                    important design elements.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <h3>
+                    🖼️ Image Prompt Generation
+                </h3>
+
+                <p>
+                    Convert creative concepts into detailed AI image prompts.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <h3>
+                    📄 Export Options
+                </h3>
+
+                <p>
+                    Save generated concepts as TXT or PDF files for future use.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- TECHNOLOGY -->
+    <section class="section">
+
+        <div class="tag">
+            TECHNOLOGY
+        </div>
+
+        <h2 class="section-title">
+            Tools & Technologies
+        </h2>
+
+        <p class="section-subtitle">
+            Technologies used to design, build and deploy the application.
+        </p>
+
+
+        <div class="tech-list">
+
+            <span class="tech">HTML5</span>
+            <span class="tech">CSS3</span>
+            <span class="tech">JavaScript</span>
+            <span class="tech">Node.js</span>
+            <span class="tech">Express.js</span>
+            <span class="tech">Google Gemini API</span>
+            <span class="tech">Responsive Design</span>
+            <span class="tech">UI/UX Design</span>
+
+        </div>
+
+    </section>
+
+
+    <!-- RESULT -->
+    <section class="section">
+
+        <div class="result">
+
+            <div class="tag">
+                FINAL RESULT
+            </div>
+
+            <h2>
+                A Real AI-Powered Web Experience
+            </h2>
+
+            <p>
+                The final product combines creative design and AI technology
+                into a functional web application that users can interact with
+                directly in the browser.
+            </p>
+
+            <a
+                href="ai-tool.html"
+                class="live-button"
+            >
+                Open AI Creative Tool →
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <p>
+            © 2026 AI Creative Studio
+        </p>
+
+        <p>
+            Designed & Developed by Vijay Kumar
+        </p>
+
+    </footer>
+
+</body>
+</html>
