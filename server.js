@@ -1,13 +1,30 @@
 import express from "express";
+import dotenv from "dotenv";
+import { GoogleGenAI } from "@google/genai";
+
+dotenv.config();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-const OLLAMA_URL = "http://localhost:11434/api/generate";
-const MODEL = "llama3.2";
+const ai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY,
+});
+
+const MODEL = "gemini-3.7-flash";
 
 app.use(express.json());
 app.use(express.static("."));
+
+async function generateAI(prompt) {
+  const response = await ai.models.generateContent({
+    model: MODEL,
+    contents: prompt,
+  });
+
+  return response.text || "";
+}
+
 
 // ===============================
 // AI CREATIVE CONCEPT
@@ -44,37 +61,17 @@ Give the response in this format:
 Keep it creative, practical, and easy to understand.
 `;
 
-    const response = await fetch(OLLAMA_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        prompt: prompt,
-        stream: false,
-      }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      console.error("Ollama Error:", data);
-
-      return res.status(500).json({
-        error: data.error || "Ollama AI generation failed.",
-      });
-    }
+    const text = await generateAI(prompt);
 
     res.json({
-      text: data.response || "No AI response received.",
+      text: text || "No AI response received.",
     });
 
   } catch (error) {
     console.error("AI Error:", error);
 
     res.status(500).json({
-      error: "Ollama is not running. Please start Ollama and try again.",
+      error: "AI generation failed. Please try again.",
     });
   }
 });
@@ -119,37 +116,17 @@ Return ONLY the final image generation prompt.
 Make it suitable for professional AI image generators.
 `;
 
-    const response = await fetch(OLLAMA_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        prompt: prompt,
-        stream: false,
-      }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      console.error("Ollama Image Prompt Error:", data);
-
-      return res.status(500).json({
-        error: data.error || "Image prompt generation failed.",
-      });
-    }
+    const text = await generateAI(prompt);
 
     res.json({
-      prompt: data.response || "No image prompt received.",
+      prompt: text || "No image prompt received.",
     });
 
   } catch (error) {
     console.error("Image Prompt Error:", error);
 
     res.status(500).json({
-      error: "Ollama is not running. Please start Ollama and try again.",
+      error: "Image prompt generation failed. Please try again.",
     });
   }
 });
@@ -158,8 +135,6 @@ Make it suitable for professional AI image generators.
 // ===============================
 // START SERVER
 // ===============================
-app.listen(PORT, () => {
-  console.log(
-    `AI Creative Studio running at http://localhost:${PORT}`
-  );
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`AI Creative Studio running on port ${PORT}`);
 });
